@@ -82,8 +82,8 @@ Dokumentacja API biblioteki FFADO.
 %patch2 -p1
 
 %build
-export CFLAGS="%{rpmcflags}"
-export CCFLAGS="%{rpmcxxflags}"
+export CFLAGS="%{rpmcflags} -fPIC"
+export CCFLAGS="%{rpmcxxflags} -fPIC"
 export LDFLAGS="%{rpmldflags}"
 export BUILD_STATIC_LIB=%{?with_static_libs:yes}%{!?with_static_libs:no}
 %{__scons} \

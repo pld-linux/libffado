@@ -1,0 +1,37 @@
+--- libffado-2.0.0/SConstruct.orig	2009-12-08 19:08:47.000000000 +0100
++++ libffado-2.0.0/SConstruct	2011-04-18 14:11:09.449535874 +0200
+@@ -94,12 +94,12 @@
+ 	env['LINKFLAGS'] = os.environ['LDFLAGS']
+ 
+ # grab OS CFLAGS / CCFLAGS
+-env['OS_CFLAGS']=[]
++env['CFLAGS']=[]
+ if os.environ.has_key('CFLAGS'):
+-	env['OS_CFLAGS'] = os.environ['CFLAGS']
+-env['OS_CCFLAGS']=[]
++	env['CFLAGS'] = os.environ['CFLAGS']
++env['CCFLAGS']=[]
+ if os.environ.has_key('CCFLAGS'):
+-	env['OS_CCFLAGS'] = os.environ['CCFLAGS']
++	env['CCFLAGS'] = os.environ['CCFLAGS']
+ 
+ Help( """
+ For building ffado you can set different options as listed below. You have to
+@@ -291,7 +291,7 @@
+ 	print "Doing a DEBUG build"
+ 	env.MergeFlags( "-DDEBUG -Wall -g" )
+ else:
+-	env.MergeFlags( "-O2 -DNDEBUG" )
++	env.MergeFlags( "-DNDEBUG" )
+ 
+ if env['PROFILE']:
+ 	print "Doing a PROFILE build"
+@@ -456,7 +456,7 @@
+         print "Doing a 32-bit build"
+ 	env.MergeFlags( "-m32" )
+ 
+-if needs_fPIC or '-fPIC' in env['OS_CFLAGS'] or "-fPIC" in env['OS_CCFLAGS']:
++if needs_fPIC or '-fPIC' in env['CFLAGS'] or "-fPIC" in env['CCFLAGS']:
+     env.MergeFlags( "-fPIC" )
+ 
+ # end of processor-specific section

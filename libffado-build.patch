@@ -26,12 +26,27 @@
  
  if env['PROFILE']:
  	print "Doing a PROFILE build"
-@@ -456,7 +456,7 @@
+@@ -359,8 +359,6 @@
+ config_os = 3
+ config = config_guess.split ("-")
+ 
+-needs_fPIC = False
+-
+ # Autodetect
+ if env['DIST_TARGET'] == 'auto':
+     if re.search ("x86_64", config[config_cpu]) != None:
+@@ -451,13 +449,11 @@
+     elif env['DIST_TARGET'] == "x86_64":
+         print "Doing a 64-bit x86 build"
+         env.MergeFlags( "-m64" )
+-        needs_fPIC = True
+     else:
          print "Doing a 32-bit build"
  	env.MergeFlags( "-m32" )
  
 -if needs_fPIC or '-fPIC' in env['OS_CFLAGS'] or "-fPIC" in env['OS_CCFLAGS']:
-+if needs_fPIC or '-fPIC' in env['CFLAGS'] or "-fPIC" in env['CCFLAGS']:
-     env.MergeFlags( "-fPIC" )
+-    env.MergeFlags( "-fPIC" )
++env.MergeFlags( "-fPIC" )
  
  # end of processor-specific section
+ if env['ENABLE_OPTIMIZATIONS']:

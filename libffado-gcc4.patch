@@ -1,0 +1,64 @@
+Index: branches/libffado-2.0/src/libavc/general/avc_extended_plug_info.cpp
+===================================================================
+--- branches/libffado-2.0/src/libavc/general/avc_extended_plug_info.cpp (revision 1235)
++++ branches/libffado-2.0/src/libavc/general/avc_extended_plug_info.cpp (revision 1825)
+@@ -129,5 +129,5 @@
+ }
+ 
+-ExtendedPlugInfoPlugNameSpecificData::ExtendedPlugInfoPlugNameSpecificData*
++ExtendedPlugInfoPlugNameSpecificData*
+ ExtendedPlugInfoPlugNameSpecificData::clone() const
+ {
+@@ -165,5 +165,5 @@
+ }
+ 
+-ExtendedPlugInfoPlugNumberOfChannelsSpecificData::ExtendedPlugInfoPlugNumberOfChannelsSpecificData*
++ExtendedPlugInfoPlugNumberOfChannelsSpecificData*
+ ExtendedPlugInfoPlugNumberOfChannelsSpecificData::clone() const
+ {
+@@ -238,5 +238,5 @@
+ }
+ 
+-ExtendedPlugInfoPlugChannelPositionSpecificData::ExtendedPlugInfoPlugChannelPositionSpecificData*
++ExtendedPlugInfoPlugChannelPositionSpecificData*
+ ExtendedPlugInfoPlugChannelPositionSpecificData::clone() const
+ {
+@@ -296,5 +296,5 @@
+ }
+ 
+-ExtendedPlugInfoPlugChannelNameSpecificData::ExtendedPlugInfoPlugChannelNameSpecificData*
++ExtendedPlugInfoPlugChannelNameSpecificData*
+ ExtendedPlugInfoPlugChannelNameSpecificData::clone() const
+ {
+@@ -343,5 +343,5 @@
+ }
+ 
+-ExtendedPlugInfoPlugInputSpecificData::ExtendedPlugInfoPlugInputSpecificData*
++ExtendedPlugInfoPlugInputSpecificData*
+ ExtendedPlugInfoPlugInputSpecificData::clone() const
+ {
+@@ -419,5 +419,5 @@
+ }
+ 
+-ExtendedPlugInfoPlugOutputSpecificData::ExtendedPlugInfoPlugOutputSpecificData*
++ExtendedPlugInfoPlugOutputSpecificData*
+ ExtendedPlugInfoPlugOutputSpecificData::clone() const
+ {
+@@ -481,5 +481,5 @@
+ }
+ 
+-ExtendedPlugInfoClusterInfoSpecificData::ExtendedPlugInfoClusterInfoSpecificData*
++ExtendedPlugInfoClusterInfoSpecificData*
+ ExtendedPlugInfoClusterInfoSpecificData::clone() const
+ {
+Index: branches/libffado-2.0/support/firmware/bridgeco-downloader.cpp
+===================================================================
+--- branches/libffado-2.0/support/firmware/bridgeco-downloader.cpp (revision 1454)
++++ branches/libffado-2.0/support/firmware/bridgeco-downloader.cpp (revision 1825)
+@@ -180,5 +180,5 @@
+             return -1;
+         }
+-        BeBoB::BCD* bcd = new BeBoB::BCD::BCD( args->args[2] );
++        BeBoB::BCD* bcd = new BeBoB::BCD( args->args[2] );
+         if ( !bcd ) {
+             cerr << "Could no open file " << args->args[2] << endl;

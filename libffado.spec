@@ -2,6 +2,7 @@
 # Conditional build:
 %bcond_without	apidocs		# do not build and package API docs
 %bcond_without	gui		# mixer utility
+%bcond_with	jack1		# use JACK 1 instead of JACK 2-pre
 #
 Summary:	Free FireWire audio driver library
 Summary(pl.UTF-8):	Wolnodostępna biblioteka sterownika dźwięku FireWire
@@ -15,16 +16,23 @@ Source0:	http://www.ffado.org/files/%{name}-%{version}.tgz
 # Source0-md5:	26bce2be0b9c1fa4e614f2f494edf388
 Patch0:		%{name}-api-doc-only.patch
 URL:		http://www.ffado.org/
+BuildRequires:	alsa-lib-devel >= 0.9
 BuildRequires:	dbus-c++-devel
 BuildRequires:	dbus-devel >= 1.0
 BuildRequires:	doxygen
-BuildRequires:	expat-devel
-BuildRequires:	jack-audio-connection-kit-devel >= 0.109.12
+%if %{with jack1}
+BuildRequires:	jack-audio-connection-kit-devel >= 0.122.0
+BuildRequires:	jack-audio-connection-kit-devel < 1.9.0
+%else
+BuildRequires:	jack-audio-connection-kit-devel >= 1.9.9
+%endif
+BuildRequires:	libavc1394-devel >= 0.5.3
 BuildRequires:	libconfig-c++-devel
 BuildRequires:	libiec61883-devel >= 1.1.0
-BuildRequires:	libraw1394-devel >= 1.3.0
+BuildRequires:	libraw1394-devel >= 2.0.5
 BuildRequires:	libstdc++-devel
-BuildRequires:	libxml++-devel >= 2.6.13
+BuildRequires:	libxml++-devel >= 2.13.0
+BuildRequires:	pkgconfig
 BuildRequires:	scons
 %if %{with apidocs}
 BuildRequires:	texlive-fonts-rsfs
@@ -40,6 +48,10 @@ BuildRequires:	desktop-file-utils
 BuildRequires:	python-PyQt4-devel-tools >= 4
 BuildRequires:	python-dbus-devel >= 0.82.0
 %endif
+Requires:	libavc1394 >= 0.5.3
+Requires:	libiec61883 >= 1.1.0
+Requires:	libraw1394 >= 2.0.5
+Requires:	libxml++ >= 2.13.0
 Suggests:	qjackctl >= 0.2.20.10
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -113,6 +125,7 @@ Graficzny mikser dla FFADO.
 %build
 %{__scons} \
 	COMPILE_FLAGS="%{rpmcflags}" \
+	ENABLE_ALL=True \
 	PREFIX=%{_prefix} \
 	MANDIR=%{_mandir} \
 	LIBDIR=%{_libdir}
@@ -127,6 +140,8 @@ install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_iconsdir}/hicolor/64x64/apps}
 
 %{__scons} install \
 	DESTDIR=$RPM_BUILD_ROOT
+
+%{__rm} $RPM_BUILD_ROOT%{_bindir}/test-*
 
 %if %{with gui}
 # scons sucks

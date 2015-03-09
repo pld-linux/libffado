@@ -1,0 +1,46 @@
+Description: detect x32
+ This patch fixes misdetection of x32 as i386, and makes it pass -mx32 instead
+ of -m32 (what's the purpose of forcing this flag???).
+ .
+ Unlike detection of 32/64-bitness, it asks the configured compiler instead of
+ objdumping /bin/mount.  If somehow you prefer that way instead, the string
+ would be: "file format elf32-x86-64".
+Author: Adam Borowski <kilobyte@angband.pl>
+
+--- libffado-2.2.1.orig/SConstruct
++++ libffado-2.2.1/SConstruct
+@@ -659,6 +659,21 @@ def is_userspace_32bit(cpuinfo):
+     return answer
+ 
+ 
++def is_userspace_x32():
++    """Check if the chosen compiler targets x32.
++    """
++    # Doing this instead of bizarre checks for /bin/mounts, this works
++    # in multiarch/multilib or crosscompiling scenarios.
++    cc = os.getenv('CC')
++    if cc == None:
++        cc = 'cc'
++    x = outputof(cc, '-dumpmachine')
++    for line in x.split('\n'):
++        if line.endswith('x32'):
++            return True
++    return None
++
++
+ def cc_flags_x86(cpuinfo, enable_optimizations):
+     """add certain gcc -m flags based on CPU features
+     """
+@@ -758,7 +773,11 @@ if cpuinfo.is_powerpc:
+         machineflags = { 'CXXFLAGS' : ['-m64'] }
+     env.MergeFlags( machineflags )
+ elif cpuinfo.is_x86:
+-    if m32:
++    if is_userspace_x32():
++        print "Doing an x32 %s build for %s" % (cpuinfo.machine, cpuinfo.model_name)
++        machineflags = { 'CXXFLAGS' : ['-mx32'] }
++        needs_fPIC = True
++    elif m32:
+         print "Doing a 32-bit %s build for %s" % (cpuinfo.machine, cpuinfo.model_name)
+         machineflags = { 'CXXFLAGS' : ['-m32'] }
+     else:

@@ -8,7 +8,7 @@ Summary:	Free FireWire audio driver library
 Summary(pl.UTF-8):	Wolnodostępna biblioteka sterownika dźwięku FireWire
 Name:		libffado
 Version:	2.2.1
-Release:	1
+Release:	2
 License:	GPL v2 or GPL v3
 Group:		Libraries
 #Source0Download: http://www.ffado.org/?q=node/5
@@ -32,7 +32,7 @@ BuildRequires:	libconfig-c++-devel
 BuildRequires:	libiec61883-devel >= 1.1.0
 BuildRequires:	libraw1394-devel >= 2.0.5
 BuildRequires:	libstdc++-devel
-BuildRequires:	libxml++-devel >= 2.13.0
+BuildRequires:	libxml++2-devel >= 2.13.0
 BuildRequires:	pkgconfig
 BuildRequires:	scons
 %if %{with apidocs}
@@ -53,7 +53,7 @@ BuildRequires:	python-dbus-devel >= 0.82.0
 Requires:	libavc1394 >= 0.5.3
 Requires:	libiec61883 >= 1.1.0
 Requires:	libraw1394 >= 2.0.5
-Requires:	libxml++ >= 2.13.0
+Requires:	libxml++2 >= 2.13.0
 Suggests:	qjackctl >= 0.2.20.10
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 

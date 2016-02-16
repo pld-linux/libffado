@@ -32,7 +32,7 @@ BuildRequires:	libavc1394-devel >= 0.5.3
 BuildRequires:	libconfig-c++-devel
 BuildRequires:	libiec61883-devel >= 1.1.0
 BuildRequires:	libraw1394-devel >= 2.0.5
-BuildRequires:	libstdc++-devel
+BuildRequires:	libstdc++-devel >= 6:4.3
 BuildRequires:	libxml++2-devel >= 2.13.0
 BuildRequires:	pkgconfig
 BuildRequires:	scons

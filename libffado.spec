@@ -8,7 +8,7 @@ Summary:	Free FireWire audio driver library
 Summary(pl.UTF-8):	Wolnodostępna biblioteka sterownika dźwięku FireWire
 Name:		libffado
 Version:	2.2.1
-Release:	2
+Release:	3
 License:	GPL v2 or GPL v3
 Group:		Libraries
 #Source0Download: http://www.ffado.org/?q=node/5
@@ -16,6 +16,7 @@ Source0:	http://www.ffado.org/files/%{name}-%{version}.tgz
 # Source0-md5:	e113d828835051f835fb4a329cb0cbd4
 Patch0:		%{name}-api-doc-only.patch
 Patch1:		detect-x32.patch
+Patch2:		%{name}-c++.patch
 URL:		http://www.ffado.org/
 BuildRequires:	alsa-lib-devel >= 0.9
 BuildRequires:	dbus-c++-devel
@@ -124,10 +125,12 @@ Graficzny mikser dla FFADO.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
+# libxml++ 2.40+ requires C++ 11
 %{__scons} \
-	COMPILE_FLAGS="%{rpmcflags}" \
+	COMPILE_FLAGS="%{rpmcxxflags} -std=gnu++0x" \
 	ENABLE_ALL=True \
 	PREFIX=%{_prefix} \
 	MANDIR=%{_mandir} \

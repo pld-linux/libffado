@@ -134,7 +134,8 @@ Graficzny mikser dla FFADO.
 	ENABLE_ALL=True \
 	PREFIX=%{_prefix} \
 	MANDIR=%{_mandir} \
-	LIBDIR=%{_libdir}
+	LIBDIR=%{_libdir} \
+	PYPKGDIR=%{py_sitescriptdir}
 
 %if %{with apidocs}
 %{__scons} doc

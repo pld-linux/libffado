@@ -3,12 +3,12 @@
 %bcond_without	apidocs		# do not build and package API docs
 %bcond_without	gui		# mixer utility
 %bcond_with	jack1		# use JACK 1 instead of JACK 2-pre
-#
+
 Summary:	Free FireWire audio driver library
 Summary(pl.UTF-8):	Wolnodostępna biblioteka sterownika dźwięku FireWire
 Name:		libffado
 Version:	2.2.1
-Release:	4
+Release:	5
 License:	GPL v2 or GPL v3
 Group:		Libraries
 #Source0Download: http://www.ffado.org/?q=node/5
@@ -23,8 +23,8 @@ BuildRequires:	dbus-c++-devel
 BuildRequires:	dbus-devel >= 1.0
 BuildRequires:	doxygen
 %if %{with jack1}
-BuildRequires:	jack-audio-connection-kit-devel >= 0.122.0
 BuildRequires:	jack-audio-connection-kit-devel < 1.9.0
+BuildRequires:	jack-audio-connection-kit-devel >= 0.122.0
 %else
 BuildRequires:	jack-audio-connection-kit-devel >= 1.9.9
 %endif
@@ -60,8 +60,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 The FFADO project aims to provide a generic, open-source solution for
-the support of FireWire based audio devices for the Linux platform.
-It is the successor of the FreeBoB project.
+the support of FireWire based audio devices for the Linux platform. It
+is the successor of the FreeBoB project.
 
 %description -l pl.UTF-8
 Celem projektu FFADO jest dostarczenie ogólnego, mającego otwarte
@@ -85,6 +85,9 @@ Pliki nagłówkowe biblioteki FFADO.
 Summary:	FFADO API documentation
 Summary(pl.UTF-8):	Dokumentacja API biblioteki FFADO
 Group:		Documentation
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
 
 %description apidocs
 API and internal documentation for FFADO library.

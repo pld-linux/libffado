@@ -7,9 +7,9 @@ Description: detect x32
  would be: "file format elf32-x86-64".
 Author: Adam Borowski <kilobyte@angband.pl>
 
---- libffado-2.2.1.orig/SConstruct
-+++ libffado-2.2.1/SConstruct
-@@ -659,6 +659,21 @@ def is_userspace_32bit(cpuinfo):
+--- libffado-2.3.0/SConstruct.orig	2016-10-06 17:05:43.420336610 +0200
++++ libffado-2.3.0/SConstruct	2016-10-06 17:08:28.043668063 +0200
+@@ -709,6 +709,21 @@
      return answer
  
  
@@ -31,16 +31,16 @@ Author: Adam Borowski <kilobyte@angband.pl>
  def cc_flags_x86(cpuinfo, enable_optimizations):
      """add certain gcc -m flags based on CPU features
      """
-@@ -758,7 +773,11 @@ if cpuinfo.is_powerpc:
-         machineflags = { 'CXXFLAGS' : ['-m64'] }
-     env.MergeFlags( machineflags )
- elif cpuinfo.is_x86:
--    if m32:
-+    if is_userspace_x32():
-+        print "Doing an x32 %s build for %s" % (cpuinfo.machine, cpuinfo.model_name)
-+        machineflags = { 'CXXFLAGS' : ['-mx32'] }
-+        needs_fPIC = True
-+    elif m32:
-         print "Doing a 32-bit %s build for %s" % (cpuinfo.machine, cpuinfo.model_name)
-         machineflags = { 'CXXFLAGS' : ['-m32'] }
-     else:
+@@ -809,7 +824,11 @@
+             machineflags = { 'CXXFLAGS' : ['-m64'] }
+         env.MergeFlags( machineflags )
+     elif cpuinfo.is_x86:
+-        if m32:
++        if is_userspace_x32():
++            print "Doing an x32 %s build for %s" % (cpuinfo.machine, cpuinfo.model_name)
++            machineflags = { 'CXXFLAGS' : ['-mx32'] }
++            needs_fPIC = True
++        elif m32:
+             print "Doing a 32-bit %s build for %s" % (cpuinfo.machine, cpuinfo.model_name)
+             machineflags = { 'CXXFLAGS' : ['-m32'] }
+         else:

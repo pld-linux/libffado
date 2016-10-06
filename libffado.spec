@@ -7,16 +7,15 @@
 Summary:	Free FireWire audio driver library
 Summary(pl.UTF-8):	Wolnodostępna biblioteka sterownika dźwięku FireWire
 Name:		libffado
-Version:	2.2.1
-Release:	5
+Version:	2.3.0
+Release:	1
 License:	GPL v2 or GPL v3
 Group:		Libraries
 #Source0Download: http://www.ffado.org/?q=node/5
 Source0:	http://www.ffado.org/files/%{name}-%{version}.tgz
-# Source0-md5:	e113d828835051f835fb4a329cb0cbd4
+# Source0-md5:	8f452977267200cfaf9b8e16ba3c92df
 Patch0:		%{name}-api-doc-only.patch
 Patch1:		detect-x32.patch
-Patch2:		%{name}-c++.patch
 URL:		http://www.ffado.org/
 BuildRequires:	alsa-lib-devel >= 0.9
 BuildRequires:	dbus-c++-devel
@@ -32,7 +31,8 @@ BuildRequires:	libavc1394-devel >= 0.5.3
 BuildRequires:	libconfig-c++-devel
 BuildRequires:	libiec61883-devel >= 1.1.0
 BuildRequires:	libraw1394-devel >= 2.0.5
-BuildRequires:	libstdc++-devel >= 6:4.3
+# -std=gnu++11 for libxml++ 2.40+
+BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	libxml++2-devel >= 2.13.0
 BuildRequires:	pkgconfig
 BuildRequires:	scons
@@ -128,12 +128,10 @@ Graficzny mikser dla FFADO.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
-# libxml++ 2.40+ requires C++ 11
 %{__scons} \
-	COMPILE_FLAGS="%{rpmcxxflags} -std=gnu++0x" \
+	COMPILE_FLAGS="%{rpmcxxflags}" \
 	ENABLE_ALL=True \
 	PREFIX=%{_prefix} \
 	MANDIR=%{_mandir} \

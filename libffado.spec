@@ -2,7 +2,7 @@
 # Conditional build:
 %bcond_without	apidocs		# do not build and package API docs
 %bcond_without	gui		# mixer utility
-%bcond_with	jack1		# use JACK 1 instead of JACK 2-pre
+%bcond_with	jack1		# use JACK 1 (0.12x) instead of JACK 2 (1.9.x)
 
 Summary:	Free FireWire audio driver library
 Summary(pl.UTF-8):	Wolnodostępna biblioteka sterownika dźwięku FireWire

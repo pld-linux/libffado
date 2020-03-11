@@ -7,14 +7,13 @@
 Summary:	Free FireWire audio driver library
 Summary(pl.UTF-8):	Wolnodostępna biblioteka sterownika dźwięku FireWire
 Name:		libffado
-Version:	2.3.0
+Version:	2.4.2
 Release:	1
 License:	GPL v2 or GPL v3
 Group:		Libraries
 #Source0Download: http://www.ffado.org/?q=node/5
 Source0:	http://www.ffado.org/files/%{name}-%{version}.tgz
-# Source0-md5:	8f452977267200cfaf9b8e16ba3c92df
-Patch0:		%{name}-api-doc-only.patch
+# Source0-md5:	2b7eddffeaac68cdd145928a6cb62540
 Patch1:		detect-x32.patch
 URL:		http://www.ffado.org/
 BuildRequires:	alsa-lib-devel >= 0.9
@@ -33,7 +32,7 @@ BuildRequires:	libiec61883-devel >= 1.1.0
 BuildRequires:	libraw1394-devel >= 2.0.5
 # -std=gnu++11 for libxml++ 2.40+
 BuildRequires:	libstdc++-devel >= 6:4.7
-BuildRequires:	libxml++2-devel >= 2.13.0
+BuildRequires:	libxml++-devel >= 3.0.0
 BuildRequires:	pkgconfig
 BuildRequires:	scons
 %if %{with apidocs}
@@ -54,7 +53,7 @@ BuildRequires:	python-dbus-devel >= 0.82.0
 Requires:	libavc1394 >= 0.5.3
 Requires:	libiec61883 >= 1.1.0
 Requires:	libraw1394 >= 2.0.5
-Requires:	libxml++2 >= 2.13.0
+Requires:	libxml++ >= 3.0.0
 Suggests:	qjackctl >= 0.2.20.10
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -126,7 +125,6 @@ Graficzny mikser dla FFADO.
 
 %prep
 %setup -q
-%patch0 -p1
 %patch1 -p1
 
 %build
@@ -136,7 +134,8 @@ Graficzny mikser dla FFADO.
 	PREFIX=%{_prefix} \
 	MANDIR=%{_mandir} \
 	LIBDIR=%{_libdir} \
-	PYPKGDIR=%{py_sitescriptdir}
+	PYPKGDIR=%{py_sitescriptdir} \
+	PYTHON_INTERPRETER=%{__python}
 
 %if %{with apidocs}
 %{__scons} doc
@@ -202,7 +201,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/libffado/fwap.xml
 %{_datadir}/libffado/refdesign.xml
 %{_datadir}/%{name}/configuration
-%dir %{_datadir}/%{name}/python
 %{_mandir}/man1/ffado-bridgeco-downloader.1*
 %{_mandir}/man1/ffado-dbus-server.1*
 %{_mandir}/man1/ffado-diag.1*
@@ -226,10 +224,8 @@ rm -rf $RPM_BUILD_ROOT
 %files diag
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/ffado-diag
-%{_datadir}/%{name}/python/ffado_diag_helpers.py
-%{_datadir}/%{name}/python/helpstrings.py
-%{_datadir}/%{name}/python/listirqinfo.py
-%{_datadir}/%{name}/python/static_info.txt
+%dir %{_libdir}/%{name}
+%{_libdir}/%{name}/static_info.txt
 
 %if %{with gui}
 %files gui
@@ -237,7 +233,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/ffado-mixer
 %{_datadir}/%{name}/icons
 %{py_sitescriptdir}/ffado
+%{_datadir}/metainfo/ffado-mixer.appdata.xml
 %{_desktopdir}/ffado.org-ffadomixer.desktop
-%{_iconsdir}/hicolor/*/apps/ffado.png
+%{_iconsdir}/hicolor/64x64/apps/ffado.png
 %{_mandir}/man1/ffado-mixer.1*
 %endif

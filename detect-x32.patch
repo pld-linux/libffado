@@ -1,10 +1,57 @@
+Description: detect x32
+ This patch fixes misdetection of x32 as i386, and makes it pass -mx32 instead
+ of -m32 (what's the purpose of forcing this flag???).
+ .
+ Unlike detection of 32/64-bitness, it asks the configured compiler instead of
+ objdumping /bin/mount.  If somehow you prefer that way instead, the string
+ would be: "file format elf32-x86-64".
+Author: Adam Borowski <kilobyte@angband.pl>
+
 --- libffado-2.4.2/SConstruct.orig	2019-09-21 08:40:33.000000000 +0200
-+++ libffado-2.4.2/SConstruct	2020-03-10 05:40:06.349185946 +0100
-@@ -836,6 +836,7 @@
-             print("Doing a 32-bit %s build for %s" % (cpuinfo.machine, cpuinfo.model_name))
-             if cpuinfo.machine == 'x86_64':
-                 machineflags = { 'CXXFLAGS' : ['-mx32'] }
-+                needs_fPIC = True
-             else:
-                 machineflags = { 'CXXFLAGS' : ['-m32'] }
-         else:
++++ libffado-2.4.2/SConstruct	2020-03-11 17:09:58.637270599 +0100
+@@ -702,34 +702,17 @@
+     if env['DIST_TARGET'] == 'i686':
+         return True
+ 
+-    # Debian ppc64 returns machine 'ppc64', but userspace might be 32-bit
+-    # We'll make an educated guess by examining a known executable
+-    exe = '/bin/mount'
+-    if os.path.isfile(exe):
+-        #print('Found %s' % exe)
+-        if os.path.islink(exe):
+-            real_exe = os.path.join(os.path.dirname(exe), os.readlink(exe))
+-            #print('%s is a symlink to %s' % (exe, real_exe))
+-        else:
+-            real_exe = exe
+-        # presumably if a person is running this script, they should have
+-        # a gcc toolchain installed...
+-        x = check_output(('objdump', '-Wi', real_exe)).decode()
+-        # should emit a line that looks like this:
+-        # /bin/mount:     file format elf32-i386
+-        # or like this:
+-        # /bin/mount:     file format elf64-x86-64
+-        # or like this:
+-        # /bin/mount:     file format elf32-powerpc
+-        for line in x.split('\n'):
+-            line = line.strip()
+-            if line.startswith(real_exe):
+-                x, fmt = line.rsplit(None, 1)
+-                answer = 'elf32' in fmt
+-                break
+-    else:
+-        print('!!! Not found %s' % exe)
+-    return answer
++    cc = os.getenv('CC')
++    if cc == None:
++        cc = 'cc'
++    x = check_output((cc, '-dumpmachine'))
++    for line in x.split('\n'):
++        if line.endswith('x32'):
++            return True
++        if '64' in line:
++            return False
++
++    return None
+ 
+ 
+ def cc_flags_x86(cpuinfo, enable_optimizations):

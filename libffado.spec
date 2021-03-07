@@ -85,7 +85,7 @@ Pliki nagłówkowe biblioteki FFADO.
 Summary:	FFADO API documentation
 Summary(pl.UTF-8):	Dokumentacja API biblioteki FFADO
 Group:		Documentation
-%{?noarchpackage}
+BuildArch:	noarch
 
 %description apidocs
 API and internal documentation for FFADO library.

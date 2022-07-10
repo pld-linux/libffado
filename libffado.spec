@@ -7,13 +7,13 @@
 Summary:	Free FireWire audio driver library
 Summary(pl.UTF-8):	Wolnodostępna biblioteka sterownika dźwięku FireWire
 Name:		libffado
-Version:	2.4.5
+Version:	2.4.6
 Release:	1
 License:	GPL v2 or GPL v3
 Group:		Libraries
 #Source0Download: http://www.ffado.org/?q=node/5
 Source0:	http://www.ffado.org/files/%{name}-%{version}.tgz
-# Source0-md5:	474fe28a1735eeb80c9a5f5e5fc24233
+# Source0-md5:	f32ed3df9601424b39a9a7f9dd00ac57
 Patch1:		detect-x32.patch
 URL:		http://www.ffado.org/
 BuildRequires:	alsa-lib-devel >= 0.9
@@ -48,9 +48,9 @@ BuildRequires:	texlive-xetex
 %endif
 %if %{with gui}
 BuildRequires:	desktop-file-utils
-BuildRequires:	python-PyQt4-devel-tools >= 4
-BuildRequires:	python-PyQt4-uic >= 4
+BuildRequires:	python-PyQt5-devel-tools >= 5
 BuildRequires:	python-dbus-devel >= 0.82.0
+BuildRequires:	python3-PyQt5-uic >= 5
 %endif
 Requires:	libavc1394 >= 0.5.3
 Requires:	libiec61883 >= 1.1.0
@@ -114,8 +114,8 @@ Requires(post,postun):	desktop-file-utils
 Requires:	%{name} = %{version}-%{release}
 Requires:	gtk-update-icon-cache
 Requires:	hicolor-icon-theme
-Requires:	python-PyQt4 >= 4
-Requires:	python-dbus >= 0.82.0
+Requires:	python3-PyQt5 >= 5
+Requires:	python3-dbus >= 0.82.0
 
 %description gui
 Graphical mixer utility for FFADO.
@@ -127,6 +127,11 @@ Graficzny mikser dla FFADO.
 %setup -q
 %patch1 -p1
 
+# force python3
+%{__sed} -i -e '1s,/usr/bin/python$,%{__python3},' \
+	admin/*.py \
+	support/mixer-qt4/ffado-mixer-profiler.in
+
 %build
 %{__scons} \
 	COMPILE_FLAGS="%{rpmcxxflags}" \
@@ -134,8 +139,8 @@ Graficzny mikser dla FFADO.
 	PREFIX=%{_prefix} \
 	MANDIR=%{_mandir} \
 	LIBDIR=%{_libdir} \
-	PYPKGDIR=%{py_sitescriptdir} \
-	PYTHON_INTERPRETER=%{__python}
+	PYPKGDIR=%{py3_sitescriptdir} \
+	PYTHON_INTERPRETER=%{__python3}
 
 %if %{with apidocs}
 %{__scons} doc
@@ -232,7 +237,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/ffado-mixer
 %{_datadir}/%{name}/icons
-%{py_sitescriptdir}/ffado
+%{py3_sitescriptdir}/ffado
 %{_datadir}/metainfo/ffado-mixer.appdata.xml
 %{_desktopdir}/ffado.org-ffadomixer.desktop
 %{_iconsdir}/hicolor/64x64/apps/ffado.png

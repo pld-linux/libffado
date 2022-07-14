@@ -36,7 +36,7 @@ BuildRequires:	libxml++-devel >= 3.0.0
 BuildRequires:	pkgconfig
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.752
-BuildRequires:	scons
+BuildRequires:	scons >= 4
 %if %{with apidocs}
 BuildRequires:	texlive-fonts-rsfs
 BuildRequires:	texlive-format-pdflatex

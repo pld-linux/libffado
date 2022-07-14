@@ -48,8 +48,8 @@ BuildRequires:	texlive-xetex
 %endif
 %if %{with gui}
 BuildRequires:	desktop-file-utils
-BuildRequires:	python-PyQt5-devel-tools >= 5
 BuildRequires:	python-dbus-devel >= 0.82.0
+BuildRequires:	python3-PyQt5-devel-tools >= 5
 BuildRequires:	python3-PyQt5-uic >= 5
 %endif
 Requires:	libavc1394 >= 0.5.3

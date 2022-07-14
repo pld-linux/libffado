@@ -44,7 +44,7 @@ Author: Adam Borowski <kilobyte@angband.pl>
 +    cc = os.getenv('CC')
 +    if cc == None:
 +        cc = 'cc'
-+    x = check_output((cc, '-dumpmachine')).detect()
++    x = check_output((cc, '-dumpmachine')).decode()
 +    for line in x.split('\n'):
 +        if line.endswith('x32'):
 +            return True

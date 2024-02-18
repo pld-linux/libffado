@@ -7,13 +7,13 @@
 Summary:	Free FireWire audio driver library
 Summary(pl.UTF-8):	Wolnodostępna biblioteka sterownika dźwięku FireWire
 Name:		libffado
-Version:	2.4.7
+Version:	2.4.8
 Release:	1
 License:	GPL v2 or GPL v3
 Group:		Libraries
 #Source0Download: http://www.ffado.org/?q=node/5
 Source0:	http://www.ffado.org/files/%{name}-%{version}.tgz
-# Source0-md5:	24b6d89623f87687bb772e8d4430a6f1
+# Source0-md5:	ef34088dbefdb956ea511c93db164240
 Patch1:		detect-x32.patch
 URL:		http://www.ffado.org/
 BuildRequires:	alsa-lib-devel >= 0.9
@@ -125,6 +125,7 @@ Graficzny mikser dla FFADO.
 
 %prep
 %setup -q
+cd libffado
 %patch1 -p1
 
 # force python3
@@ -133,6 +134,7 @@ Graficzny mikser dla FFADO.
 	support/mixer-qt4/ffado-mixer-profiler.in
 
 %build
+cd libffado
 %{__scons} \
 	COMPILE_FLAGS="%{rpmcxxflags}" \
 	ENABLE_ALL=True \
@@ -150,6 +152,7 @@ Graficzny mikser dla FFADO.
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_iconsdir}/hicolor/64x64/apps}
 
+cd libffado
 %{__scons} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
@@ -182,7 +185,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog README
+%doc libffado/{AUTHORS,ChangeLog,README}
 %attr(755,root,root) %{_bindir}/dumpiso_mod
 %attr(755,root,root) %{_bindir}/ffado-bridgeco-downloader
 %attr(755,root,root) %{_bindir}/ffado-dbus-server
@@ -223,7 +226,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with apidocs}
 %files apidocs
 %defattr(644,root,root,755)
-%doc doc/reference/html doc/reference/html/*
+%doc libffado/doc/reference/html
 %endif
 
 %files diag

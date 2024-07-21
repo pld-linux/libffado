@@ -7,15 +7,15 @@
 Summary:	Free FireWire audio driver library
 Summary(pl.UTF-8):	Wolnodostępna biblioteka sterownika dźwięku FireWire
 Name:		libffado
-Version:	2.4.8
+Version:	2.4.9
 Release:	1
 License:	GPL v2 or GPL v3
 Group:		Libraries
-#Source0Download: http://www.ffado.org/?q=node/5
-Source0:	http://www.ffado.org/files/%{name}-%{version}.tgz
-# Source0-md5:	ef34088dbefdb956ea511c93db164240
+#Source0Download: https://ffado.org/?q=node/5
+Source0:	https://ffado.org/files/%{name}-%{version}.tgz
+# Source0-md5:	8e20b9d52a42707cc03f91fa5996b027
 Patch1:		detect-x32.patch
-URL:		http://www.ffado.org/
+URL:		https://ffado.org/
 BuildRequires:	alsa-lib-devel >= 0.9
 BuildRequires:	dbus-c++-devel
 BuildRequires:	dbus-devel >= 1.0
@@ -125,7 +125,6 @@ Graficzny mikser dla FFADO.
 
 %prep
 %setup -q
-cd libffado
 %patch1 -p1
 
 # force python3
@@ -134,7 +133,6 @@ cd libffado
 	support/mixer-qt4/ffado-mixer-profiler.in
 
 %build
-cd libffado
 %{__scons} \
 	COMPILE_FLAGS="%{rpmcxxflags}" \
 	ENABLE_ALL=True \
@@ -150,23 +148,21 @@ cd libffado
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_iconsdir}/hicolor/64x64/apps}
+#install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_iconsdir}/hicolor/64x64/apps}
 
-cd libffado
 %{__scons} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 %{__rm} $RPM_BUILD_ROOT%{_bindir}/test-*
 
 %if %{with gui}
-# scons sucks
-desktop-file-install --dir $RPM_BUILD_ROOT%{_desktopdir} support/xdg/ffado.org-ffadomixer.desktop
-ln -s ../../../../libffado/icons/hi64-apps-ffado.png \
-	$RPM_BUILD_ROOT%{_iconsdir}/hicolor/64x64/apps/ffado.png
+## scons sucks
+#desktop-file-install --dir $RPM_BUILD_ROOT%{_desktopdir} support/xdg/ffado.org-ffadomixer.desktop
+#ln -s ../../../../libffado/icons/hi64-apps-ffado.png \
+#	$RPM_BUILD_ROOT%{_iconsdir}/hicolor/64x64/apps/ffado.png
 
-%py_ocomp $RPM_BUILD_ROOT%{py_sitescriptdir}
-%py_comp $RPM_BUILD_ROOT%{py_sitescriptdir}
-%py_postclean
+%py3_ocomp $RPM_BUILD_ROOT%{py3_sitescriptdir}
+%py3_comp $RPM_BUILD_ROOT%{py3_sitescriptdir}
 %endif
 
 %clean
@@ -185,7 +181,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc libffado/{AUTHORS,ChangeLog,README}
+%doc AUTHORS ChangeLog README
 %attr(755,root,root) %{_bindir}/dumpiso_mod
 %attr(755,root,root) %{_bindir}/ffado-bridgeco-downloader
 %attr(755,root,root) %{_bindir}/ffado-dbus-server
@@ -226,7 +222,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with apidocs}
 %files apidocs
 %defattr(644,root,root,755)
-%doc libffado/doc/reference/html
+%doc doc/reference/html
 %endif
 
 %files diag
@@ -241,8 +237,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/ffado-mixer
 %{_datadir}/%{name}/icons
 %{py3_sitescriptdir}/ffado
-%{_datadir}/metainfo/ffado-mixer.appdata.xml
-%{_desktopdir}/ffado.org-ffadomixer.desktop
-%{_iconsdir}/hicolor/64x64/apps/ffado.png
+%{_datadir}/metainfo/org.ffado.FfadoMixer.metainfo.xml
+%{_desktopdir}/org.ffado.FfadoMixer.desktop
+%{_iconsdir}/hicolor/64x64/apps/hi64-apps-ffado.png
 %{_mandir}/man1/ffado-mixer.1*
 %endif

@@ -8,7 +8,7 @@ Summary:	Free FireWire audio driver library
 Summary(pl.UTF-8):	Wolnodostępna biblioteka sterownika dźwięku FireWire
 Name:		libffado
 Version:	2.4.9
-Release:	1
+Release:	
 License:	GPL v2 or GPL v3
 Group:		Libraries
 #Source0Download: https://ffado.org/?q=node/5

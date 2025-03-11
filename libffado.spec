@@ -8,7 +8,7 @@ Summary:	Free FireWire audio driver library
 Summary(pl.UTF-8):	Wolnodostępna biblioteka sterownika dźwięku FireWire
 Name:		libffado
 Version:	2.4.9
-Release:	
+Release:	2
 License:	GPL v2 or GPL v3
 Group:		Libraries
 #Source0Download: https://ffado.org/?q=node/5
@@ -125,7 +125,7 @@ Graficzny mikser dla FFADO.
 
 %prep
 %setup -q
-%patch1 -p1
+%patch -P 1 -p1
 
 # force python3
 %{__sed} -i -e '1s,/usr/bin/python$,%{__python3},' \

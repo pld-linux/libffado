@@ -7,13 +7,13 @@
 Summary:	Free FireWire audio driver library
 Summary(pl.UTF-8):	Wolnodostępna biblioteka sterownika dźwięku FireWire
 Name:		libffado
-Version:	2.4.9
-Release:	5
+Version:	2.5.0
+Release:	1
 License:	GPL v2 or GPL v3
 Group:		Libraries
 #Source0Download: https://ffado.org/?q=node/5
 Source0:	https://ffado.org/files/%{name}-%{version}.tgz
-# Source0-md5:	8e20b9d52a42707cc03f91fa5996b027
+# Source0-md5:	f5e2d92bdd8dd99e9ef6f52653f996b6
 Patch1:		detect-x32.patch
 URL:		https://ffado.org/
 BuildRequires:	alsa-lib-devel >= 0.9
@@ -198,8 +198,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/scan-devreg
 %attr(755,root,root) %{_bindir}/set-default-router-config-dice-eap
 %attr(755,root,root) %{_bindir}/unmute-ozonic
-%attr(755,root,root) %{_libdir}/libffado.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libffado.so.2
+%{_libdir}/libffado.so.*.*.*
+%ghost %{_libdir}/libffado.so.2
 %dir %{_datadir}/%{name}
 %{_datadir}/libffado/fw410.xml
 %{_datadir}/libffado/fwap.xml
@@ -215,7 +215,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libffado.so
+%{_libdir}/libffado.so
 %{_includedir}/libffado
 %{_pkgconfigdir}/libffado.pc
 
